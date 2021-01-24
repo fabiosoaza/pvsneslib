@@ -52,7 +52,7 @@ unsigned int find_word(string s, const char *word)
 void check_for_const(string s)
 {
 	unsigned int i, j;
-	const string staticPrefix = "__tccs_";
+	const string staticPrefix = "tccs_";
 
 	// We are only interested in global consts that are initialized in this file
 	if ( (find_word(s, "const") != string::npos) && (s.find("extern") == string::npos) && (blockDepth == 0))
@@ -97,7 +97,7 @@ void check_for_const(string s)
 }
 
 //////////////////////////////////////////////////////////////////////////////
-void PrintOptions(char *str)
+void PrintOptions(const char *str)
 {
 	printf("\n\nUsage: constify [options] cfile asmfile output ...");
 	
@@ -130,7 +130,7 @@ int main(int argc, char **argv)
 		printf("\n==============================");
 		printf("\n---constify v"CONSTIFYVERSION" "CONSTIFYDATE"---");
 		printf("\n------------------------------");
-		printf("\n(c) 2013-2017 Alekmaul ");
+		printf("\n(c) 2013-2020 Alekmaul ");
 		printf("\nBased on constify by Mic");
 		printf("\n==============================\n");
 	}

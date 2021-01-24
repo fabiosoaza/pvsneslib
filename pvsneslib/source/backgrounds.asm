@@ -1,6 +1,6 @@
 ;---------------------------------------------------------------------------------
 ;
-;	Copyright (C) 2013
+;	Copyright (C) 2013-2020
 ;		Alekmaul 
 ;
 ;	This software is provided 'as-is', without any express or implied
@@ -22,10 +22,10 @@
 ;
 ;---------------------------------------------------------------------------------
 
-.equ REG_BGxHOFS           $210D
-.equ REG_BGyHOFS           $210E
+.EQU REG_BGxHOFS           $210D
+.EQU REG_BGyHOFS           $210E
 
-.section ".backgrounds_text" superfree
+.SECTION ".backgrounds0_text" SUPERFREE
 
 ;---------------------------------------------------------------------------
 ; bgSetScroll(u8 bgNumber, u16 x, u16 y);
@@ -68,5 +68,5 @@ bgSetScroll:
 	plp
 	rtl
 	
-.ends
+.ENDS
 

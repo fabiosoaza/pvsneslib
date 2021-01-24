@@ -894,6 +894,8 @@ void warning(const char *fmt, ...);
 #include "816-gen.c"
 #endif
 
+char sztmpnam[STRING_MAX_SIZE];  // Alekmaul 201125, variable for temp file name (token usage)
+
 /********************************************************/
 
 /* we use our own 'finite' function to avoid potential problems with
@@ -1360,9 +1362,10 @@ void error(const char *fmt, ...)
     va_start(ap, fmt);
     error1(s1, 0, fmt, ap);
     va_end(ap);
+    
     /* better than nothing: in some cases, we accept to handle errors */
     if (s1->error_set_jmp_enabled) {
-        longjmp(s1->error_jmp_buf, 1);
+        exit(1); // Alek 201125 hangs on winxp longjmp(s1->error_jmp_buf, 1);
     } else {
         /* XXX: eliminate this someday */
         exit(1);
@@ -1637,7 +1640,8 @@ char *get_tok_str(int v, CValue *cv)
             return table_ident[v - TOK_IDENT]->str;
         } else if (v >= SYM_FIRST_ANOM) {
             /* special name for anonymous symbol */
-            sprintf(p, "L.%d", v - SYM_FIRST_ANOM);
+            //sprintf(p, "L.%s%d",&tmpnam(NULL)[1] , v - SYM_FIRST_ANOM);
+            sprintf(p, "L.%s%d",sztmpnam,v - SYM_FIRST_ANOM); // Alekmaul 201125, add temp file name to token name
         } else {
             /* should never happen */
             return NULL;
@@ -10522,6 +10526,14 @@ int main(int argc, char **argv)
     char objfilename[1024];
     int64_t start_time = 0;
 
+    strcpy(sztmpnam,&tmpnam(NULL)[1]);      // Alekmaul 201125, create temp file name for token name
+    for(i=0;sztmpnam[i]!='\0';i++)               // Alekmaul 201212, ughly change for linux system
+    {
+        if(sztmpnam[i]=='/')
+        {
+            sztmpnam[i] = '.';
+        }
+    }
 #ifdef WIN32
     /* on win32, we suppose the lib and includes are at the location
        of 'tcc.exe' */

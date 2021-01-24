@@ -1,6 +1,6 @@
 ;---------------------------------------------------------------------------------
 ;
-;	Copyright (C) 2015
+;	Copyright (C) 2015-2020
 ;		Alekmaul 
 ;
 ;	This software is provided 'as-is', without any express or implied
@@ -22,11 +22,11 @@
 ;
 ;---------------------------------------------------------------------------------
 
-.ramsection ".reg_scores" bank 0 slot 1
-scorestring		dsb 10                         ; for score to string convertion
-.ends
+.RAMSECTION ".reg_scores" BANK 0 SLOT 1
+scorestring		DSB 10                         ; for score to string convertion
+.ENDS
 
-.section ".scores_text" superfree
+.SECTION ".scores0_text" SUPERFREE
 
 ;---------------------------------------------------------------------------------
 ; void scoreClear(scoMemory *source);
@@ -53,6 +53,10 @@ scoreClear:
 	plb
 	plp
 	rtl
+
+.ENDS
+
+.SECTION ".scores1_text" SUPERFREE
 
 ;---------------------------------------------------------------------------------
 ; void scoreAdd(scoMemory *source, u16 value);
@@ -91,7 +95,11 @@ _scoAdd1:
 	plb
 	plp
 	rtl
-	
+
+.ENDS
+
+.SECTION ".scores2_text" SUPERFREE
+
 ;---------------------------------------------------------------------------------
 ; void scoreCpy(scoMemory *source, scoMemory *dest);
 scoreCpy:
@@ -134,6 +142,9 @@ scoreCpy:
 	plp
 	rtl
 
+.ENDS
+
+.SECTION ".scores3_text" SUPERFREE
 ;---------------------------------------------------------------------------------
 ; void scoreCmp(scoMemory *source, scoMemory *dest);
 scoreCmp:
@@ -210,150 +221,5 @@ _scocmpbye:
 	plp
 	rtl
 
-;---------------------------------------------------------------------------------
-; void score2Str(scoMemory *source, u16 value);
-score2Str:	
-	php
-	phb
-    
-	phx
-	
-	plx
-	
-	plb
-	plp
-	rtl
-	
-    ;            pop de
-    ;            pop hl
-    ;            pop bc
-    ;            push bc
-    ;            push hl
-    ;            push de
-    ;            
-  ;              push bc
-;
-;                ld e,(hl)
-;                inc hl;
-              ; 
- ;ld d,(hl)
-   ;             inc hl
-                
-    ;            push hl
-                
-     ;           ld bc,#score_string+4
-                
-      ;          push bc
-       ;         push de
-        ;        call _utoa0
-         ;       pop bc
-          ;      pop bc
-                
- ;               pop hl
-
- ;               ld e,(hl)
- ;               inc hl
- ;               ld d,(hl)
-                
- ;               ld bc,#score_string
-                
-  ;              push bc
-  ;              push de
-  ;              call _utoa0
-  ;              pop bc
-  ;              pop bc
-                
-  ;              xor a
-  ;              ld (score_string+9),a
-                
-  ;              pop bc
-  ;              ld hl,#9
-   ;             sbc hl,bc
-   ;             ld de,#score_string
-   ;             add hl,de
-                
-    ;            ret
-				
-				
-;_score_cmp_gt:
-;                pop bc
-;                pop de
-;                pop hl
-;                push hl
-;                push de
-;;                push bc
-;                
-;                push de
-;                push hl
-;                
-;                call _score_cmp_lt
-;                
-;                pop bc
-;                pop bc
-;                
-;                ret
-								
-;_score_cmp_lt:
-;                pop bc
-;                pop de
-;                pop hl
-;                push hl
-;                push de
-;                push bc
-;                
-;                push hl
-;                push de
-;                
-;                inc hl
-;                inc hl
-;                ld c,(hl)
-;                inc hl
-;                ld b,(hl)
-
-;                ex de,hl
-
-;                inc hl
-;                inc hl
-;                ld a,(hl)
-;                inc hl
-;                ld h,(hl)
-;                ld l,a
-;                
-;                or a
-;                sbc hl,bc
-;                
-;                jr c,$1
-;                jr nz,$0
-;                
-;                pop de
-;                pop hl
-;                push hl
-;                push de
-;                
-;                ld c,(hl)
-;                inc hl
-;                ld b,(hl)
-
-;                ex de,hl
-
-;                ld a,(hl)
-;                inc hl
-;                ld h,(hl)
-;                ld l,a
-;                
-;                sbc hl,bc
-;                
-;                jr c,$1;
-
-;$0:
-;                ld hl,#0x0000
-;                jr $2
-;$1:
-;                ld hl,#0x0001
-;$2:
-;                pop bc
-;                pop bc
-;                ret
-
-.ends
+.ENDS
 

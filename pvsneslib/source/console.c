@@ -27,40 +27,22 @@
 
 #include <snes/console.h>
 
-u8 pvsneslibfont_map[0x800];
-u8 pvsneslibdirty;
 
 u8 text_buffer[128];
 u16  maptext_adress;
 u8   palette_adress, palette_number;
 
-u16  snes_vblank_count;
-
 u8	snes_50hz;
 
 extern u16	snes_rand_seed1;
 extern u16 snes_rand_seed2;
+extern void consoleVblank(void);
+extern u8 pvsneslibdirty;
+extern u8 pvsneslibfont_map[0x800];
+extern u16 snes_vblank_count;
 
 //---------------------------------------------------------------------------------
-void consoleVblank(void) {
-	// Read joysticks
-	scanPads();
-	
-	// Put oam to screen if needed
-	oamUpdate();
-
-	// if buffer need to be update, do it !
-	if (pvsneslibdirty == 1) {
-		dmaCopyVram((unsigned char *) &pvsneslibfont_map, 0x800, 0x800);
-		pvsneslibdirty = 0;
-	}
-	
-	// Count frame number
-	snes_vblank_count++;
-}
-
-//---------------------------------------------------------------------------------
-void _print_screen_map(u16 x, u16 y, unsigned char  *map, u8 attributes, unsigned char *buffer) {
+void print_screen_map(u16 x, u16 y, unsigned char  *map, u8 attributes, unsigned char *buffer) {
 	u16 x1; 
     
 	x1 = y * 0x20 + x;
@@ -108,7 +90,7 @@ void consoleDrawText(u16 x, u16 y, char *fmt, ...) {
 	vsprintf(text_buffer, fmt, ap);
 	va_end(ap);
 	
-	_print_screen_map(x*2,y*2, pvsneslibfont_map, palette_adress, text_buffer);
+	print_screen_map(x*2,y*2, pvsneslibfont_map, palette_adress, text_buffer);
 	pvsneslibdirty = 1;
 }
 
@@ -119,7 +101,7 @@ void consoleDrawTextMap(u8 x, u8 y, u8 *map, u8 attributes, char *fmt, ...) {
 	vsprintf(text_buffer, fmt, ap);
 	va_end(ap);
 
-	_print_screen_map(x*2,y*2, map, attributes, text_buffer);
+	print_screen_map(x*2,y*2, map, attributes, text_buffer);
 }
 
 //---------------------------------------------------------------------------------
@@ -133,7 +115,7 @@ void consoleDrawTextMapCenter(u8 y, u8 *map, u8 attributes, char *fmt, ...) {
 
 	x = 16 - strlen(text_buffer)/2;
 	
-	_print_screen_map(x*2,y*2, map, attributes, text_buffer);
+	print_screen_map(x*2,y*2, map, attributes, text_buffer);
 }
 
 //---------------------------------------------------------------------------------
@@ -171,12 +153,13 @@ void consoleInit(void) {
 	//LoadSPC();
 
 	// Put current handler to our function
-	__nmi_handler=consoleVblank; 
+	nmi_handler=consoleVblank; 
 	
 	snes_vblank_count = 0; // Begin counting vblank
 	pvsneslibdirty = 0;    // Nothing to print on screen
 	snes_rand_seed1 = 1;   // For rand funciton
 	snes_rand_seed2 = 5;   // For rand funciton
+	snes_mplay5 = 0; 	   // For Pad function	
 	
 	memset(bgState,0,sizeof(bgState));
 	
@@ -200,4 +183,5 @@ void consoleInit(void) {
 	WaitForVBlank(); 
 	setBrightness(0xF);  // Screen with all brightness
 }
+
 

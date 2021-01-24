@@ -872,7 +872,7 @@ namespace IT2SPC {
 			fprintf( f, 
 				".bank %i\n"
 				".section \"SOUNDBANK\" ; need dedicated bank(s)\n\n"
-				"__SOUNDBANK__:\n",
+				"SOUNDBANK__:\n",
 				BANKNUM
 			);
 		
@@ -881,7 +881,7 @@ namespace IT2SPC {
 			for( u32 i = 0; i < foo.size(); i++ ) {
 				if( foo[i] == '\\' ) foo[i] = '/';
 			}
-			int ffo = foo.find_last_of( '/' );
+			unsigned int ffo = foo.find_last_of( '/' );
 			if( ffo != std::string::npos )
 				foo = foo.substr( ffo + 1 );
 		
@@ -895,7 +895,7 @@ namespace IT2SPC {
 				fprintf( f, 
 					".bank %i\n"
 					".section \"SOUNDBANK%i\" ; need dedicated bank(s)\n\n"
-					"__SOUNDBANK__%i:\n",
+					"SOUNDBANK__%i:\n",
 					BANKNUM+j,j,j
 				);
 		
@@ -904,7 +904,7 @@ namespace IT2SPC {
 				for( u32 i = 0; i < foo.size(); i++ ) {
 					if( foo[i] == '\\' ) foo[i] = '/';
 				}
-				int ffo = foo.find_last_of( '/' );
+				unsigned  int ffo = foo.find_last_of( '/' );
 				if( ffo != std::string::npos )
 					foo = foo.substr( ffo + 1 );
 		

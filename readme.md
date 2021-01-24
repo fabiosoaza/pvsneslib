@@ -1,5 +1,5 @@
 # A C library for the Nintendo SNES 20th birthday #
-PVSneslib V2.3.2 (10, February, 2017)  
+PVSneslib V3.1.0 (13, December, 2020)  
 http://www.portabledev.com/jeux/supernes/pvsneslib/
 
 PVSnesLib is an open and free library to develop programs for Nintendo SNES in C language.
@@ -13,6 +13,8 @@ Doc page: http://www.portabledev.com/pvsneslib/doc
 
 You can find tutorials about how install and use PVSneslib on this page:  
 https://github.com/alekmaul/pvsneslib/wiki/Introduction
+
+We now have a Discord :D, just join us with this link : https://discord.gg/DzEFnhB
 
 PVSneslib and affiliated tools are distributed under the MIT license (see pvsneslib_license.txt file)
 

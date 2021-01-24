@@ -1,21 +1,12 @@
-# path to snesdev root directory (for emulators, devkitsnes, libsnes)
-export DEVKITSNES := /c/snesdev/
-#export DEVKITSNES := /z/vboxshared/DropboxSvnClient/trunk/snesdev/pvsneslib
-
-# path to devkitsnes root directory for compiler
-export DEVKIT65XX := /c/snesdev/devkitsnes
-#export DEVKIT65XX := /z/vboxshared/DropboxSvnClient/trunk/snesdev/pvsneslib/devkitsnes
-
-#---------------------------------------------------------------------------------
-ifeq ($(strip $(DEVKITSNES)),)
-$(error "Please set DEVKITSNES in your environment. export DEVKITSNES=<path to>devkitSNES)
+ifeq ($(strip $(PVSNESLIB_HOME)),)
+$(error "Please create an environment variable PVSNESLIB_HOME with path to its folder and restart application. (you can do it on windows with <setx PVSNESLIB_HOME "/c/snesdev">)")
 endif
  
 export TOPDIR	:=	$(CURDIR)
 
-export PVSNESLIB_MAJOR	:= 2
-export PVSNESLIB_MINOR	:= 3
-export PVSNESLIB_PATCH	:= 2
+export PVSNESLIB_MAJOR	:= 3
+export PVSNESLIB_MINOR	:= 1
+export PVSNESLIB_PATCH	:= 0
 
 
 VERSION	:=	$(PVSNESLIB_MAJOR).$(PVSNESLIB_MINOR).$(PVSNESLIB_PATCH)
@@ -59,14 +50,16 @@ dist: dist-bin dist-src
 #-------------------------------------------------------------------------------
 install: dist-bin
 #-------------------------------------------------------------------------------
-	mkdir -p $(DEVKITSNES)/pvsneslib
-	bzip2 -cd pvsneslib-$(VERSION).tar.bz2 | tar -x -C $(DEVKITSNES)/pvsneslib
+	mkdir -p ${PVSNESLIB_HOME}/pvsneslib
+	bzip2 -cd pvsneslib-$(VERSION).tar.bz2 | tar -x -C ${PVSNESLIB_HOME}/pvsneslib
 
 #---------------------------------------------------------------------------------
 docs:
 #---------------------------------------------------------------------------------
-	doxygen pvsneslib.dox
-	cat warn.log
+	${PVSNESLIB_HOME}/devkitsnes/tools/doxygen pvsneslib.dox
+	@if [ -f 'warn.log' ]; then \
+        @cat warn.log; \
+   fi	
 
 #---------------------------------------------------------------------------------
 include/snes/libversion.h : Makefile

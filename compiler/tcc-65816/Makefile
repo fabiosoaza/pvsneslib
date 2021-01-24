@@ -11,6 +11,7 @@ endif
 CFLAGS_P=$(CFLAGS) -pg -static -DCONFIG_TCC_STATIC
 LIBS_P=
 
+# -m32 to build as 32 bit application
 CFLAGS+=-mpreferred-stack-boundary=4
 ifeq ($(GCC_MAJOR),2)
 CFLAGS+=-m386 -malign-functions=0

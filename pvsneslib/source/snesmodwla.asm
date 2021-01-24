@@ -37,7 +37,7 @@
 .equ REG_APUIO1		2141h	; Sound Register			1B/RW
 .define REG_APUIO2		2142h	; Sound Register			1B/RW
 .define REG_APUIO3		2143h	; Sound Register			1B/RW
-;.define REG_SLHV		2137h	; Sofware Latch For H/V Counter		1B/R
+.define REG_SLHV		2137h	; Sofware Latch For H/V Counter		1B/R
 .define REG_OPVCT		213Dh	; Y Scanline Location			1B/R D
 
 .equ REG_NMI_TIMEN	$4200
@@ -112,9 +112,9 @@ digi_copyrate:	DS 1
 ;.segment "RODATA"
 ;======================================================================
 
-.define SPC_BOOT 0400h ; spc entry/load address
+.DEFINE SPC_BOOT 0400h ; spc entry/load address
 
-.section ".soundmod" superfree
+.SECTION ".soundmod" SUPERFREE
 
 ;======================================================================
 ;.code
@@ -1241,6 +1241,6 @@ spcProcessStream:
 digi_rates:
 	.db	0, 3, 5, 7, 9, 11, 13
 
-.ends
+.ENDS
 
-.include "sm_spc.asm"
+.INCLUDE "sm_spc.asm"

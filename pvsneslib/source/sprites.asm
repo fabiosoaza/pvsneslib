@@ -1,6 +1,6 @@
 ;---------------------------------------------------------------------------------
 ;
-;	Copyright (C) 2012-2017
+;	Copyright (C) 2012-2020
 ;		Alekmaul 
 ;
 ;	This software is provided 'as-is', without any express or implied
@@ -22,7 +22,7 @@
 ;
 ;---------------------------------------------------------------------------------
 
-.equ REG_OBSEL		$2101
+.EQU REG_OBSEL		$2101
 
 
 
@@ -31,21 +31,21 @@
 .DEFINE OBJ_SMALL				$00
 .DEFINE OBJ_LARGE				$01
 
-.DEFINE OBJ_SIZE16			$60 ; (3<<5)
+.DEFINE OBJ_SIZE16_L32			    $60 ; (3<<5)
 
 
-.ramsection ".reg_oams7e" bank $7e slot 0
+.RAMSECTION ".reg_oams7e" BANK $7E 
 
-sprit_val1			DSB 1                         ; save value #1
+sprit_val1			            DSB 1                         ; save value #1
 
-oamMemory				DSB 128*4+8*4
+oamMemory				        DSB 128*4+8*4
 
-.ends
+.ENDS
 
-.section ".sprites_text" superfree
+.SECTION ".sprites0_text" SUPERFREE
 
-.accu 16
-.index 16
+.ACCU 16
+.INDEX 16
 .16bit
 
 ;---------------------------------------------------------------------------
@@ -74,6 +74,10 @@ oamUpdate:
 
 	plp
 	rtl
+
+.ENDS
+
+.SECTION ".sprites1_text" SUPERFREE
 
 ;---------------------------------------------------------------------------
 ; void oamFlip(u16 id, u8 xf, u8 yf);
@@ -114,7 +118,11 @@ oamFlip:
 	plb
   plp
 	rtl
-  
+ 
+ .ENDS
+ 
+ .SECTION ".sprites2_text" SUPERFREE
+ 
 ;---------------------------------------------------------------------------
 ; void oamSetAttr(u16 id, u16 xspr, u16 yspr, u16 gfxoffset, u8 attr);
 oamSetAttr:
@@ -259,8 +267,11 @@ oamSetXY:
 	plx
 	plp
 	rtl
-	
-	
+
+.ENDS	
+
+ .SECTION ".sprites3_text" SUPERFREE
+
 ;---------------------------------------------------------------------------
 ; void oamSetVisible(u16 id, u8 hide)
 oamSetVisible:
@@ -332,6 +343,10 @@ oamHideand:
 	.db $fe, $fb, $ef, $bf
 oamHideshift: 
 	.db $01, $04, $10, $40
+
+.ENDS
+
+ .SECTION ".sprites4_text" SUPERFREE
 
 ;---------------------------------------------------------------------------
 ; void oamSetEx(u16 id, u8 size, u8 hide)
@@ -420,6 +435,10 @@ oamSetExand:
 oamSizeshift: 
 	.db $02, $08, $20, $80
 
+.ENDS
+
+ .SECTION ".sprites5_text" SUPERFREE
+
 ;---------------------------------------------------------------------------
 ; void oamInitGfxAttr(u16 address, u8 oamsize)
 oamInitGfxAttr:
@@ -460,4 +479,4 @@ oamInitGfxAttr:
 	plp
 	rtl
 
-.ends
+.ENDS
